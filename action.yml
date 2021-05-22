@@ -24,6 +24,8 @@ inputs:
     required: false
   rename:
     description: 'Rename the destination file'
+  commit_message:
+    description: 'A custom message for the commmit'
     required: false
 runs:
   using: 'docker'
@@ -36,6 +38,7 @@ runs:
     - ${{ inputs.destination-branch }}
     - ${{ inputs.destination-branch-create }}
     - ${{ inputs.rename }}
+    - ${{ inputs.commit-message }}
 branding:
   icon: 'git-commit'
   color: 'green'
