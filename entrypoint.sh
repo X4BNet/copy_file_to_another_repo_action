@@ -29,8 +29,14 @@ then
 fi
 
 echo "Copying contents to git repo"
-mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
-cp -R $INPUT_SOURCE_FILE "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
+mkdir -p "$CLONE_DIR"/"$INPUT_DESTINATION_FOLDER"
+
+if [ ! -z "$INPUT_RENAME" ]
+then
+  cp -R "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/$INPUT_RENAME"
+else
+  cp -R "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
+fi
 cd "$CLONE_DIR"
 
 echo "Adding git commit"

@@ -22,6 +22,9 @@ inputs:
   destination_branch_create:
     description: 'Destination branch to create for this commit'
     required: false
+  rename:
+    description: 'Rename the destination file'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -32,6 +35,7 @@ runs:
     - ${{ inputs.user-email }}
     - ${{ inputs.destination-branch }}
     - ${{ inputs.destination-branch-create }}
+    - ${{ inputs.rename }}
 branding:
   icon: 'git-commit'
   color: 'green'
