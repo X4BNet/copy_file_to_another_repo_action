@@ -20,7 +20,15 @@ CLONE_DIR=$(mktemp -d)
 echo "Cloning destination git repository"
 git config --global user.email "$INPUT_USER_EMAIL"
 git config --global user.name "$INPUT_USER_NAME"
-git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+
+if [[ "$API_TOKEN_GITHUB" != "" ]]; then
+  git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+else
+  echo "$SSH_KEY_GITHUB" > /tmp/ssh.key
+  chmod 0600 /tmp/ssh.key
+  export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -i /tmp/ssh.key" 
+  git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "git@github.com:$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+fi
 
 echo "Copying contents to git repo"
 mkdir -p "$CLONE_DIR"/"$INPUT_DESTINATION_FOLDER"
