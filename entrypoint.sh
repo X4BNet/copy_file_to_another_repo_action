@@ -59,8 +59,23 @@ git add .
 if git status | grep -q "Changes to be committed"
 then
   git commit --message "$INPUT_COMMIT_MESSAGE"
-  echo "Pushing git commit"
-  git push -u origin HEAD:$OUTPUT_BRANCH
+  echo "Checking for pull"
+
+  set +e
+  while i in {1..5}; do
+    git pull -u origin $OUTPUT_BRANCH || true
+    echo "Pushing git commit"
+    git push -u origin HEAD:$OUTPUT_BRANCH  
+    if [ $? -eq 0 ]; then
+      set +e
+      break
+    fi
+    if [ $i -eq 5 ]; then
+      echo "Failed to push changes to the destination repository"
+      exit 1
+    fi
+    sleep 1
+  done
 else
   echo "No changes detected"
 fi
