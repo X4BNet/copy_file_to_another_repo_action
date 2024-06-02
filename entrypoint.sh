@@ -62,7 +62,7 @@ then
   echo "Checking for pull"
 
   set +e
-  while i in {1..5}; do
+  for i in {1..5}; do
     git pull -u origin $OUTPUT_BRANCH || true
     echo "Pushing git commit"
     git push -u origin HEAD:$OUTPUT_BRANCH  
