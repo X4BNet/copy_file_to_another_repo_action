@@ -63,7 +63,7 @@ then
 
   set +e
   for i in {1..5}; do
-    git pull -u origin $OUTPUT_BRANCH || true
+    git pull origin $OUTPUT_BRANCH || true
     echo "Pushing git commit"
     git push -u origin HEAD:$OUTPUT_BRANCH  
     if [ $? -eq 0 ]; then
